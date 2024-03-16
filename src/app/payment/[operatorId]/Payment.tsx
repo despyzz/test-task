@@ -100,7 +100,7 @@ export function Payment({id}: PaymentProps) {
   }
 
   useEffect(() => {
-    setDisabled(phoneValue.length !== COMPLETED_PHONE_NUMBER_LENGTH && amountValue === '')
+    setDisabled(phoneValue.length !== COMPLETED_PHONE_NUMBER_LENGTH || amountValue === '')
   }, [phoneValue, amountValue])
 
   useEffect(() => {
