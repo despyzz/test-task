@@ -20,6 +20,7 @@ const StyledCard = styled(Link)`
     padding: 24px;
     border-radius: 40px;
     transition: transform 0.3s ease;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
 
     &:hover {
         transform: scale(1.03);
@@ -50,6 +51,7 @@ const StyledCardSkeleton = styled.div`
     padding: 24px;
     border-radius: 40px;
     transition: transform 0.3s ease;
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
 
     @media ${device.tablet} {
         padding: 40px;
