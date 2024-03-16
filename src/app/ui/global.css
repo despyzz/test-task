@@ -1,0 +1,44 @@
+:root {
+    --main-bg: #302C42;
+    --main-light: #C0B7E8;
+    --main-dark: #211E2E;
+    --font-light: #cdc4eb;
+    --font-dark: #343045;
+
+    --font-s: clamp(12px, 3.75vw, 18px);
+    --font-m: clamp(14px, 4.4vw, 24px);
+    --font-l: clamp(18px, 5.6vw, 32px);
+
+    --btn-light-bg: #C0B7E8;
+    --btn-light-bg-hover: #8e88ad;
+    --btn-light-bg-disabled: #8e88ad;
+
+    --btn-light-color: #302C42;
+    --btn-light-color-hover: #2e2a40;
+    --btn-light-color-disabled: #56506d;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+
+    background: var(--main-bg);
+}
+
+main {
+    flex: 1;
+    width: 100%;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
