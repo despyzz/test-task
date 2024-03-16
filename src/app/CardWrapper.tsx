@@ -3,11 +3,12 @@
 import {useCallback, useEffect, useState} from "react";
 import {Operator} from "@/app/lib/definitions";
 import {fetchOperators} from "@/app/lib/data";
-import {Card} from "@/app/Card";
+import {Card, CardSkeleton} from "@/app/Card";
 import styled from "styled-components";
 import {Container} from "@/app/ui/common/Container";
 import {AppError} from "@/app/ui/common/AppError";
 import {Button} from "@/app/ui/common/Button"
+import {bool} from "prop-types";
 
 // firstly fetch only 3 operators
 const FETCH_LIMIT = 3;
@@ -27,9 +28,18 @@ export default function CardWrapper() {
   const [error, setError] = useState<boolean>(false);
   const [addError, setAddError] = useState<boolean>(false);
 
+  const [firstLoading, setFirstLoading] = useState<boolean>(false);
+  const [secondLoading, setSecondLoading] = useState<boolean>(false);
+
   const fetchData = useCallback(async (limit?: number) => {
     setError(false)
     setAddError(false)
+
+    // enable card skeletons
+    if (limit)
+      setFirstLoading(true)
+    else
+      setSecondLoading(true)
 
     fetchOperators(limit)
       .then(response => {
@@ -37,6 +47,13 @@ export default function CardWrapper() {
         return response.json();
       })
       .then(newOperators => {
+        // disable card skeletons
+        if (limit) {
+          setFirstLoading(false)
+        } else {
+          setSecondLoading(false)
+        }
+
         // add only new operators
         setOperators(prevOperators => {
           const uniqueOperators = newOperators.filter(
@@ -46,7 +63,15 @@ export default function CardWrapper() {
         });
       })
       .catch(() => {
-        limit ? setError(true) : setAddError(true);
+
+        // set errors and disable card skeletons
+        if (limit) {
+          setFirstLoading(false)
+          setError(true)
+        } else {
+          setSecondLoading(false);
+          setAddError(true)
+        }
       });
   }, []);
 
@@ -54,7 +79,7 @@ export default function CardWrapper() {
     fetchData(FETCH_LIMIT);
   }, []);
 
-  if (error) {
+  if (error)
     return (
       <Container>
         <AppError>
@@ -66,12 +91,19 @@ export default function CardWrapper() {
           </Button>
         </AppError>
       </Container>
-    );
-  }
+    )
 
   return (
     <Container>
       <StyledWrapper>
+        {
+          firstLoading &&
+          <>
+            <CardSkeleton/>
+            <CardSkeleton/>
+            <CardSkeleton/>
+          </>
+        }
         {
           operators.map(operator => <Card operator={operator} key={operator.id}/>)
         }
@@ -86,6 +118,14 @@ export default function CardWrapper() {
           >
             Показать всех операторов
           </Button>
+        }
+        {
+          secondLoading &&
+          <>
+            <CardSkeleton/>
+            <CardSkeleton/>
+            <CardSkeleton/>
+          </>
         }
         {
           addError &&
