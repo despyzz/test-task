@@ -150,6 +150,7 @@ export function Payment({id}: PaymentProps) {
                 else
                   setAmountValue(value)
               }}
+              type={"number"}
             />
           </Label>
         </InputGroup>
