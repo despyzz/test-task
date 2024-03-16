@@ -8,7 +8,6 @@ import styled from "styled-components";
 import {Container} from "@/app/ui/common/Container";
 import {AppError} from "@/app/ui/common/AppError";
 import {Button} from "@/app/ui/common/Button"
-import {bool} from "prop-types";
 
 // firstly fetch only 3 operators
 const FETCH_LIMIT = 3;
