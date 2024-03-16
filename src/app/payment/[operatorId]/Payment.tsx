@@ -24,7 +24,7 @@ const Form = styled.form`
     background: radial-gradient(50% 50% at 50% 50%, #403A5F 0%, #211E2E 100%);
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
 
-    padding: clamp(45px, 13vw,90px) clamp(20px, 12.5vw, 100px);
+    padding: clamp(45px, 13vw, 90px) clamp(20px, 12.5vw, 100px);
     border-radius: 40px;
 
     display: flex;
@@ -43,7 +43,7 @@ const InputGroup = styled.div`
 
     @media ${device.desktop} {
         flex-direction: row;
-        
+
         & > * {
             flex: 1;
         }
@@ -54,7 +54,7 @@ const Label = styled.label`
     display: flex;
     flex-direction: column;
     gap: 5px;
-    
+
     div {
         font-size: var(--font-m);
         color: var(--font-light);
@@ -68,7 +68,7 @@ export function Payment({id}: PaymentProps) {
   const [fetchError, setFetchError] = useState<boolean>(false);
 
   const [phoneValue, setPhoneValue] = useState('');
-  const [amountValue, setAmountValue] = useState('100');
+  const [amountValue, setAmountValue] = useState('');
 
   const [disabled, setDisabled] = useState(true);
 
@@ -100,8 +100,8 @@ export function Payment({id}: PaymentProps) {
   }
 
   useEffect(() => {
-    setDisabled(phoneValue.length !== COMPLETED_PHONE_NUMBER_LENGTH)
-  }, [phoneValue])
+    setDisabled(phoneValue.length !== COMPLETED_PHONE_NUMBER_LENGTH && amountValue !== '')
+  }, [phoneValue, amountValue])
 
   useEffect(() => {
     fetchData(id)
@@ -140,15 +140,19 @@ export function Payment({id}: PaymentProps) {
             <div>Сумма:</div>
             <AmountInput
               value={amountValue}
-              onChange={({ target: { value } }) => {
-                const numValue = Number(value);
-
-                if (value === '' || numValue < MIN_AMOUNT)
-                  setAmountValue(String(MIN_AMOUNT))
-                else if (numValue > MAX_AMOUNT)
-                  setAmountValue(String(MAX_AMOUNT))
-                else
-                  setAmountValue(value)
+              onChange={({target: {value}}) => {
+                if (value === '') {
+                  setAmountValue('');
+                } else {
+                  const numValue = Number(value);
+                  if (numValue < MIN_AMOUNT) {
+                    setAmountValue(String(MIN_AMOUNT));
+                  } else if (numValue > MAX_AMOUNT) {
+                    setAmountValue(String(MAX_AMOUNT));
+                  } else {
+                    setAmountValue(value);
+                  }
+                }
               }}
               type={"number"}
             />
