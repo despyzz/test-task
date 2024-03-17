@@ -161,12 +161,14 @@ export function Payment({id}: PaymentProps) {
 
   if (fetchError) {
     return (
-      <AppError>
-        <div>Не удалось получить данные об операторе</div>
-        <Button onClick={() => fetchData(id)}>
-          Повторить попытку
-        </Button>
-      </AppError>
+      <Container>
+        <AppError>
+          <div>Не удалось получить данные об операторе</div>
+          <Button onClick={() => fetchData(id)}>
+            Повторить попытку
+          </Button>
+        </AppError>
+      </Container>
     )
   }
 
